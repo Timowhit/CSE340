@@ -16,11 +16,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node public/app.js",
-    "dev": "nodemon public/app.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "build": "npm install",
-    "lint": "eslint public/",
-    "format": "prettier --write public/",
+    "lint": "eslint .",
+    "format": "prettier --write .",
     "audit:fix": "npm audit fix"
   },
   "dependencies": {
