@@ -1,0 +1,416 @@
+/* ===========================================
+   CSE Motors - Styles
+   Mobile-First Approach
+   =========================================== */
+
+/* --- Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap');
+
+/* --- CSS Variables --- */
+:root {
+  --color-primary: #1a2e4a;
+  --color-accent: #00b4d8;
+  --color-accent-dark: #0077a8;
+  --color-bg: #f5f7fa;
+  --color-white: #ffffff;
+  --color-text: #1a2e4a;
+  --color-text-light: #4a5568;
+  --color-nav-bg: #1a2e4a;
+  --color-nav-text: #ffffff;
+  --color-footer-bg: #1a2e4a;
+  --color-footer-text: #ffffff;
+  --color-link: #00b4d8;
+  --color-upgrade-bg: #00b4d8;
+  --font-heading: 'Oswald', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+  --border-radius: 6px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+  color: var(--color-accent-dark);
+}
+
+ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+/* --- Skip Link (Accessibility) --- */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--color-accent);
+  color: var(--color-white);
+  padding: 0.5rem 1rem;
+  z-index: 1000;
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* --- Site Header --- */
+#top-header {
+  background-color: var(--color-white);
+  padding: 0.75rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--color-accent);
+}
+
+#logo {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+#logo:hover {
+  color: var(--color-accent-dark);
+  text-decoration: none;
+}
+
+#tools a {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+}
+
+#tools a:hover {
+  color: var(--color-accent-dark);
+}
+
+/* --- Navigation --- */
+nav#main-nav {
+  background-color: var(--color-nav-bg);
+}
+
+nav#main-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+nav#main-nav ul li a {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--color-nav-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+nav#main-nav ul li a:hover,
+nav#main-nav ul li a:focus {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+/* --- Main Content --- */
+main {
+  flex: 1;
+  padding: 1.25rem 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --- Hero / Welcome Section --- */
+#hero {
+  margin-bottom: 2rem;
+}
+
+#hero h1 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+#hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#vehicle-info {
+  position: relative;
+}
+
+#vehicle-info h2 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.4rem;
+}
+
+#vehicle-info ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+#vehicle-info ul li {
+  font-size: 0.95rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+#vehicle-image {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  text-decoration: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--color-accent-dark);
+  color: var(--color-white);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* --- Sections: Reviews & Upgrades --- */
+#reviews {
+  margin-bottom: 2rem;
+}
+
+#reviews h2 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+#reviews ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+#reviews ul li {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* --- Upgrades --- */
+#upgrades {
+  margin-bottom: 2rem;
+}
+
+#upgrades h2 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+#upgrades-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.upgrade-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 2px solid var(--color-accent);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background-color: var(--color-white);
+  transition: box-shadow 0.2s ease;
+}
+
+.upgrade-item:hover {
+  box-shadow: var(--shadow);
+}
+
+.upgrade-img-wrapper {
+  background-color: var(--color-upgrade-bg);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  min-height: 90px;
+}
+
+.upgrade-img-wrapper img {
+  max-height: 70px;
+  width: auto;
+  object-fit: contain;
+}
+
+.upgrade-item a {
+  display: block;
+  padding: 0.4rem 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-link);
+  text-decoration: none;
+  width: 100%;
+}
+
+.upgrade-item a:hover,
+.upgrade-item a:focus {
+  text-decoration: underline;
+  color: var(--color-accent-dark);
+}
+
+/* --- Footer --- */
+footer#footer {
+  background-color: var(--color-footer-bg);
+  color: var(--color-footer-text);
+  text-align: center;
+  padding: 1rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  margin-top: auto;
+}
+
+footer#footer p {
+  margin: 0;
+}
+
+/* ============================================
+   MEDIA QUERIES — Large Screen Layout
+   ============================================ */
+
+@media screen and (min-width: 768px) {
+  main {
+    padding: 2rem 2rem;
+  }
+
+  /* Hero: side by side */
+  #hero-content {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  #vehicle-info {
+    flex: 0 0 auto;
+    min-width: 200px;
+  }
+
+  #vehicle-image {
+    flex: 1;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* Bottom: upgrades left, reviews right */
+  #bottom-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  #upgrades h2,
+  #reviews h2 {
+    font-size: 1.5rem;
+  }
+
+  #logo {
+    font-size: 2rem;
+  }
+
+  #hero h1 {
+    font-size: 1.9rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  #upgrades-grid {
+    gap: 1rem;
+  }
+
+  .upgrade-img-wrapper {
+    min-height: 110px;
+  }
+
+  .upgrade-img-wrapper img {
+    max-height: 85px;
+  }
+}
