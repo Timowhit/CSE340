@@ -21,7 +21,8 @@
     "build": "npm install",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "audit:fix": "npm audit fix"
+    "audit:fix": "npm audit fix",
+    "preview": "vite preview"
   },
   "dependencies": {
     "ejs": "^5.0.1",
