@@ -1,23 +1,42 @@
-const express = require('express');
-const path = require('path');
-const indexRouter = require('./routes/index');
+const express = require('express')
+const path = require('path')
+require('dotenv').config()
 
-const app = express();
+const indexRouter = require('./routes/index')
+const inventoryRouter = require('./routes/inventoryRoute')
 
-// Set EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+const app = express()
 
-// Serve static files from the public folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 // Routes
-app.use('/', indexRouter);
+app.use('/', indexRouter)
+app.use('/inv', inventoryRouter)
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+// ---- 404 Handler ----
+app.use((req, res, next) => {
+  const err = new Error('Page Not Found')
+  err.status = 404
+  next(err)
+})
 
-module.exports = app;
+// ---- Error Handling Middleware (Task 2 & 3) ----
+app.use((err, req, res, next) => {
+  const status = err.status || 500
+  const message = err.message || 'An unexpected error occurred.'
+  console.error(`Error ${status}: ${message}`)
+  res.status(status).render('errors/error', {
+    title: status === 404 ? '404 – Page Not Found' : '500 – Server Error',
+    message,
+    status,
+  })
+})
+
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`))
+
+module.exports = app
