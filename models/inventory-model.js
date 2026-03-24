@@ -6,7 +6,7 @@ async function getVehiclesByClassification(classification_name) {
     `SELECT * FROM public.inventory AS i
      JOIN public.classification AS c
        ON i.classification_id = c.classification_id
-     WHERE c.classification_name = $1`,
+     WHERE LOWER(c.classification_name) = LOWER($1)`,
     [classification_name]
   )
   return data.rows
