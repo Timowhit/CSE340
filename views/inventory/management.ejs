@@ -1,0 +1,25 @@
+<%- include("../../partials/head") %>
+<%- include("../../partials/header") %>
+<%- include("../../partials/navigation") %>
+
+<main id="main-content">
+  <h1>Inventory Management</h1>
+
+  <% if (notice) { %>
+    <p class="notice"><%= notice %></p>
+  <% } %>
+
+  <section class="management-links">
+    <h2>Manage Inventory</h2>
+    <ul>
+      <li>
+        <a href="/inv/add-classification">Add New Classification</a>
+      </li>
+      <li>
+        <a href="/inv/add-inventory">Add New Inventory Item</a>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<%- include("../../partials/footer") %>

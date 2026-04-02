@@ -1,14 +1,180 @@
-const express = require('express')
-const router = express.Router()
-const invController = require('../controllers/invController')
+// routes/inventoryRoute.js
+const express = require("express")
+const router = new express.Router()
+const invController = require("../controllers/invController")
+const utilities = require("../utilities/")
+const { body, validationResult } = require("express-validator")
 
-// Classification view
-router.get('/type/:classification', invController.buildByClassification)
+/* ===================================
+ * Validation Rule Arrays
+ * =================================== */
 
-// Vehicle detail view  (Task 1)
-router.get('/detail/:inv_id', invController.buildDetail)
+// Classification validation rules
+const classificationRules = () => {
+  return [
+    body("classification_name")
+      .trim()
+      .notEmpty()
+      .withMessage("Classification name is required.")
+      .matches(/^[a-zA-Z0-9]+$/)
+      .withMessage(
+        "Classification name must not contain spaces or special characters."
+      ),
+  ]
+}
 
-// Intentional error trigger  (Task 3)
-router.get('/cause-error', invController.triggerError)
+// Inventory validation rules
+const inventoryRules = () => {
+  return [
+    body("classification_id")
+      .notEmpty()
+      .withMessage("Please choose a classification."),
+
+    body("inv_make")
+      .trim()
+      .notEmpty()
+      .isLength({ min: 3 })
+      .withMessage("Make must be at least 3 characters."),
+
+    body("inv_model")
+      .trim()
+      .notEmpty()
+      .isLength({ min: 3 })
+      .withMessage("Model must be at least 3 characters."),
+
+    body("inv_year")
+      .trim()
+      .notEmpty()
+      .isInt({ min: 1900, max: 2030 })
+      .withMessage("Please provide a valid 4-digit year."),
+
+    body("inv_description")
+      .trim()
+      .notEmpty()
+      .withMessage("Description is required."),
+
+    body("inv_image")
+      .trim()
+      .notEmpty()
+      .withMessage("Image path is required."),
+
+    body("inv_thumbnail")
+      .trim()
+      .notEmpty()
+      .withMessage("Thumbnail path is required."),
+
+    body("inv_price")
+      .trim()
+      .notEmpty()
+      .isDecimal()
+      .withMessage("Please provide a valid price."),
+
+    body("inv_miles")
+      .trim()
+      .notEmpty()
+      .isInt({ min: 0 })
+      .withMessage("Miles must be a whole number."),
+
+    body("inv_color")
+      .trim()
+      .notEmpty()
+      .isLength({ min: 3 })
+      .withMessage("Color must be at least 3 characters."),
+  ]
+}
+
+// Middleware to check validation result
+const checkClassificationData = async (req, res, next) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+      errors,
+      notice: null,
+    })
+    return
+  }
+  next()
+}
+
+const checkInventoryData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const {
+    classification_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+  } = req.body
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList(
+      classification_id
+    )
+    res.render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+      errors,
+      classificationList,
+      notice: null,
+      // Sticky values
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+    })
+    return
+  }
+  next()
+}
+
+/* ===================================
+ * Routes
+ * =================================== */
+
+// Management view
+router.get("/", utilities.handleErrors(invController.buildManagement))
+
+// Add classification – GET
+router.get(
+  "/add-classification",
+  utilities.handleErrors(invController.buildAddClassification)
+)
+
+// Add classification – POST
+router.post(
+  "/add-classification",
+  classificationRules(),
+  checkClassificationData,
+  utilities.handleErrors(invController.addClassification)
+)
+
+// Add inventory – GET
+router.get(
+  "/add-inventory",
+  utilities.handleErrors(invController.buildAddInventory)
+)
+
+// Add inventory – POST
+router.post(
+  "/add-inventory",
+  inventoryRules(),
+  checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
+)
 
 module.exports = router

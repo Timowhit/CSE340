@@ -1,0 +1,64 @@
+<%- include("../../partials/head") %>
+<%- include("../../partials/header") %>
+<%- include("../../partials/navigation") %>
+
+<main id="main-content">
+  <h1>Add New Classification</h1>
+
+  <% if (notice) { %>
+    <p class="notice"><%= notice %></p>
+  <% } %>
+
+  <%# Display server-side validation errors %>
+  <% if (locals.errors) { %>
+    <ul class="errors">
+      <% errors.array().forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <p class="form-directions">
+    Classification name <strong>cannot contain spaces or special characters</strong>
+    (letters and numbers only).
+  </p>
+
+  <form
+    action="/inv/add-classification"
+    method="post"
+    novalidate
+    id="classificationForm"
+  >
+    <label for="classification_name">Classification Name</label>
+    <input
+      type="text"
+      name="classification_name"
+      id="classification_name"
+      placeholder="e.g. Truck"
+      pattern="^[a-zA-Z0-9]+$"
+      title="No spaces or special characters allowed"
+      required
+      autocomplete="off"
+    />
+
+    <button type="submit">Add Classification</button>
+  </form>
+</main>
+
+<%- include("../../partials/footer") %>
+
+<script>
+  /* Client-side validation */
+  const form = document.getElementById("classificationForm");
+  form.addEventListener("submit", function (e) {
+    const name = document.getElementById("classification_name").value.trim();
+    const pattern = /^[a-zA-Z0-9]+$/;
+
+    if (!pattern.test(name)) {
+      e.preventDefault();
+      alert(
+        "Classification name must contain only letters and numbers — no spaces or special characters."
+      );
+    }
+  });
+</script>

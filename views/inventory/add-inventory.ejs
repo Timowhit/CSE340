@@ -1,0 +1,207 @@
+<%- include("../../partials/head") %>
+<%- include("../../partials/header") %>
+<%- include("../../partials/navigation") %>
+
+<main id="main-content">
+  <h1>Add New Inventory Item</h1>
+
+  <% if (notice) { %>
+    <p class="notice"><%= notice %></p>
+  <% } %>
+
+  <%# Display server-side validation errors %>
+  <% if (locals.errors) { %>
+    <ul class="errors">
+      <% errors.array().forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <form
+    action="/inv/add-inventory"
+    method="post"
+    novalidate
+    id="inventoryForm"
+  >
+    <!-- Classification Select (built dynamically in utility) -->
+    <label for="classificationList">Classification</label>
+    <%- classificationList %>
+
+    <!-- Make -->
+    <label for="inv_make">Make</label>
+    <input
+      type="text"
+      name="inv_make"
+      id="inv_make"
+      placeholder="e.g. Ford"
+      minlength="3"
+      required
+      value="<%= locals.inv_make ? inv_make : '' %>"
+    />
+
+    <!-- Model -->
+    <label for="inv_model">Model</label>
+    <input
+      type="text"
+      name="inv_model"
+      id="inv_model"
+      placeholder="e.g. F-150"
+      minlength="3"
+      required
+      value="<%= locals.inv_model ? inv_model : '' %>"
+    />
+
+    <!-- Year -->
+    <label for="inv_year">Year</label>
+    <input
+      type="number"
+      name="inv_year"
+      id="inv_year"
+      placeholder="e.g. 2024"
+      min="1900"
+      max="2030"
+      required
+      value="<%= locals.inv_year ? inv_year : '' %>"
+    />
+
+    <!-- Description -->
+    <label for="inv_description">Description</label>
+    <textarea
+      name="inv_description"
+      id="inv_description"
+      rows="5"
+      required
+    ><%= locals.inv_description ? inv_description : '' %></textarea>
+
+    <!-- Image Path -->
+    <label for="inv_image">Image Path</label>
+    <input
+      type="text"
+      name="inv_image"
+      id="inv_image"
+      placeholder="/images/vehicles/no-image.png"
+      required
+      value="<%= locals.inv_image ? inv_image : '/images/vehicles/no-image.png' %>"
+    />
+
+    <!-- Thumbnail Path -->
+    <label for="inv_thumbnail">Thumbnail Path</label>
+    <input
+      type="text"
+      name="inv_thumbnail"
+      id="inv_thumbnail"
+      placeholder="/images/vehicles/no-image-tn.png"
+      required
+      value="<%= locals.inv_thumbnail ? inv_thumbnail : '/images/vehicles/no-image-tn.png' %>"
+    />
+
+    <!-- Price -->
+    <label for="inv_price">Price</label>
+    <input
+      type="number"
+      name="inv_price"
+      id="inv_price"
+      placeholder="e.g. 25000"
+      min="0"
+      step="0.01"
+      required
+      value="<%= locals.inv_price ? inv_price : '' %>"
+    />
+
+    <!-- Miles -->
+    <label for="inv_miles">Miles</label>
+    <input
+      type="number"
+      name="inv_miles"
+      id="inv_miles"
+      placeholder="e.g. 15000"
+      min="0"
+      required
+      value="<%= locals.inv_miles ? inv_miles : '' %>"
+    />
+
+    <!-- Color -->
+    <label for="inv_color">Color</label>
+    <input
+      type="text"
+      name="inv_color"
+      id="inv_color"
+      placeholder="e.g. Red"
+      minlength="3"
+      required
+      value="<%= locals.inv_color ? inv_color : '' %>"
+    />
+
+    <button type="submit">Add Vehicle</button>
+  </form>
+</main>
+
+<%- include("../../partials/footer") %>
+
+<script>
+  /* Client-side validation */
+  const form = document.getElementById("inventoryForm");
+
+  form.addEventListener("submit", function (e) {
+    let valid = true;
+    const messages = [];
+
+    const make = document.getElementById("inv_make").value.trim();
+    const model = document.getElementById("inv_model").value.trim();
+    const year = parseInt(document.getElementById("inv_year").value);
+    const description = document.getElementById("inv_description").value.trim();
+    const image = document.getElementById("inv_image").value.trim();
+    const thumbnail = document.getElementById("inv_thumbnail").value.trim();
+    const price = parseFloat(document.getElementById("inv_price").value);
+    const miles = parseInt(document.getElementById("inv_miles").value);
+    const color = document.getElementById("inv_color").value.trim();
+    const classification = document.getElementById("classificationList").value;
+
+    if (!classification) {
+      valid = false;
+      messages.push("Please select a classification.");
+    }
+    if (make.length < 3) {
+      valid = false;
+      messages.push("Make must be at least 3 characters.");
+    }
+    if (model.length < 3) {
+      valid = false;
+      messages.push("Model must be at least 3 characters.");
+    }
+    if (isNaN(year) || year < 1900 || year > 2030) {
+      valid = false;
+      messages.push("Year must be between 1900 and 2030.");
+    }
+    if (!description) {
+      valid = false;
+      messages.push("Description is required.");
+    }
+    if (!image) {
+      valid = false;
+      messages.push("Image path is required.");
+    }
+    if (!thumbnail) {
+      valid = false;
+      messages.push("Thumbnail path is required.");
+    }
+    if (isNaN(price) || price < 0) {
+      valid = false;
+      messages.push("Price must be a positive number.");
+    }
+    if (isNaN(miles) || miles < 0) {
+      valid = false;
+      messages.push("Miles must be a positive number.");
+    }
+    if (color.length < 3) {
+      valid = false;
+      messages.push("Color must be at least 3 characters.");
+    }
+
+    if (!valid) {
+      e.preventDefault();
+      alert(messages.join("\n"));
+    }
+  });
+</script>
