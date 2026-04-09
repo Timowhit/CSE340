@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | CSE Motors</title>
+  <link rel="stylesheet" href="/css/styles.css" media="screen" />
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header id="top-header">
+    <a href="/" id="logo" aria-label="CSE Motors Home">CSE Motors</a>
+    <div id="tools">
+      <a href="/account/login" aria-label="My Account">My Account</a>
+    </div>
+  </header>
+
+  <nav id="main-nav" aria-label="Main Navigation">
+    <%- nav %>
+  </nav>
+
+<main id="main-content">
+  <h1><%= title %></h1>
+
+  <% if (locals.notice) { %>
+    <p class="notice"><%= notice %></p>
+  <% } %>
+
+  <% if (locals.errors) { %>
+    <ul class="errors">
+      <% errors.array().forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <div class="account-container">
+    <form
+      action="/account/login"
+      method="post"
+      novalidate
+      id="loginForm"
+      class="account-form"
+    >
+      <fieldset>
+        <legend>Login to Your Account</legend>
+
+        <label for="account_email">Email Address</label>
+        <input
+          type="email"
+          name="account_email"
+          id="account_email"
+          placeholder="your@email.com"
+          autocomplete="email"
+          required
+          value="<%= locals.account_email ? account_email : '' %>"
+        />
+
+        <label for="account_password">Password</label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            name="account_password"
+            id="account_password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          />
+          <button
+            type="button"
+            id="togglePassword"
+            class="toggle-password"
+            aria-label="Show or hide password"
+          >Show</button>
+        </div>
+
+        <button type="submit" class="btn-primary">Login</button>
+      </fieldset>
+    </form>
+
+    <p class="account-switch">
+      Don't have an account?
+      <a href="/account/register">Register here</a>
+    </p>
+  </div>
+</main>
+
+<footer id="footer">
+  <p>&copy; 2025, CSE 340 App</p>
+</footer>
+
+</body>
+</html>
+
+<style>
+  /* ============================================
+     ACCOUNT FORMS (login / registration)
+     ============================================ */
+  .account-container {
+    max-width: 420px;
+    margin: 2rem auto;
+  }
+
+  .account-form fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .account-form legend {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid var(--color-accent);
+    width: 100%;
+  }
+
+  .account-form label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text);
+    margin-top: 0.5rem;
+  }
+
+  .account-form input {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #cbd5e0;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    width: 100%;
+    transition: border-color 0.2s ease;
+  }
+
+  .account-form input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+  }
+
+  .password-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .password-wrapper input {
+    flex: 1;
+  }
+
+  .toggle-password {
+    padding: 0.5rem 0.75rem;
+    background: var(--color-bg);
+    border: 1px solid #cbd5e0;
+    border-radius: var(--border-radius);
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    color: var(--color-text-light);
+    font-family: var(--font-body);
+  }
+
+  .toggle-password:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+    border-color: var(--color-accent);
+  }
+
+  .account-form .btn-primary {
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+    font-size: 1.05rem;
+    padding: 0.75rem;
+  }
+
+  .account-switch {
+    margin-top: 1.25rem;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+  }
+
+  .errors {
+    background: #fff5f5;
+    border-left: 4px solid #e53e3e;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    color: #c53030;
+    font-size: 0.9rem;
+  }
+
+  .errors li + li {
+    margin-top: 0.35rem;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById("togglePassword")
+  const passwordInput = document.getElementById("account_password")
+
+  toggle.addEventListener("click", function () {
+    const isHidden = passwordInput.type === "password"
+    passwordInput.type = isHidden ? "text" : "password"
+    toggle.textContent = isHidden ? "Hide" : "Show"
+  })
+</script>

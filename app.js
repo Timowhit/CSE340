@@ -1,9 +1,12 @@
 const express = require('express')
 const path = require('path')
+const session = require('express-session')
+const flash = require('connect-flash')
 require('dotenv').config()
 
 const indexRouter = require('./routes/index')
 const inventoryRouter = require('./routes/inventoryRoute')
+const accountRouter = require('./routes/accountRoute')   // ← NEW
 
 const app = express()
 
@@ -13,9 +16,25 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// Routes
+// ---- Session & Flash Middleware ----
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'super-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+app.use(flash())
+
+// Make flash messages available to all views
+app.use((req, res, next) => {
+  res.locals.notice = req.flash('notice')
+  next()
+})
+
+// ---- Routes ----
 app.use('/', indexRouter)
 app.use('/inv', inventoryRouter)
+app.use('/account', accountRouter)              // ← NEW
 
 // ---- 404 Handler ----
 app.use((req, res, next) => {
@@ -24,7 +43,7 @@ app.use((req, res, next) => {
   next(err)
 })
 
-// ---- Error Handling Middleware (Task 2 & 3) ----
+// ---- Error Handling Middleware ----
 app.use((err, req, res, next) => {
   const status = err.status || 500
   const message = err.message || 'An unexpected error occurred.'
