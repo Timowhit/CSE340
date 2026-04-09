@@ -4,7 +4,7 @@
    =========================================== */
 
 /* --- Google Fonts Import --- */
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap");
 
 /* --- CSS Variables --- */
 :root {
@@ -21,14 +21,16 @@
   --color-footer-text: #ffffff;
   --color-link: #00b4d8;
   --color-upgrade-bg: #00b4d8;
-  --font-heading: 'Oswald', sans-serif;
-  --font-body: 'Source Sans 3', sans-serif;
+  --font-heading: "Oswald", sans-serif;
+  --font-body: "Source Sans 3", sans-serif;
   --border-radius: 6px;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 /* --- Reset & Base --- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -147,7 +149,9 @@ nav#main-nav ul li a {
   font-weight: 600;
   letter-spacing: 0.03em;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 nav#main-nav ul li a:hover,
@@ -228,7 +232,9 @@ main {
   border-radius: var(--border-radius);
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   text-decoration: none;
 }
 
@@ -435,7 +441,7 @@ footer#footer p {
 }
 
 #inv-display li:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
 #inv-display li img {

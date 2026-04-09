@@ -1,13 +1,13 @@
 // models/inventory-model.js
-const pool = require("../database/")
+const pool = require("../database/");
 
 /* -------------------------------------------------------
  * Get all classifications
  * ----------------------------------------------------- */
 async function getClassifications() {
   return await pool.query(
-    "SELECT * FROM public.classification ORDER BY classification_name"
-  )
+    "SELECT * FROM public.classification ORDER BY classification_name",
+  );
 }
 
 /* -------------------------------------------------------
@@ -20,11 +20,11 @@ async function getInventoryByClassificationId(classification_id) {
        JOIN public.classification AS c
        ON i.classification_id = c.classification_id
        WHERE i.classification_id = $1`,
-      [classification_id]
-    )
-    return data.rows
+      [classification_id],
+    );
+    return data.rows;
   } catch (error) {
-    console.error("getInventoryByClassificationId error: " + error)
+    console.error("getInventoryByClassificationId error: " + error);
   }
 }
 
@@ -38,11 +38,11 @@ async function getInventoryById(inv_id) {
        JOIN public.classification AS c
        ON i.classification_id = c.classification_id
        WHERE i.inv_id = $1`,
-      [inv_id]
-    )
-    return data.rows[0]
+      [inv_id],
+    );
+    return data.rows[0];
   } catch (error) {
-    console.error("getInventoryById error: " + error)
+    console.error("getInventoryById error: " + error);
   }
 }
 
@@ -52,10 +52,10 @@ async function getInventoryById(inv_id) {
 async function addClassification(classification_name) {
   try {
     const sql =
-      "INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *"
-    return await pool.query(sql, [classification_name])
+      "INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *";
+    return await pool.query(sql, [classification_name]);
   } catch (error) {
-    return error.message
+    return error.message;
   }
 }
 
@@ -72,7 +72,7 @@ async function addInventory(
   inv_thumbnail,
   inv_price,
   inv_miles,
-  inv_color
+  inv_color,
 ) {
   try {
     const sql = `
@@ -81,7 +81,7 @@ async function addInventory(
          inv_image, inv_thumbnail, inv_price, inv_miles, inv_color)
       VALUES
         ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      RETURNING *`
+      RETURNING *`;
 
     return await pool.query(sql, [
       classification_id,
@@ -94,9 +94,9 @@ async function addInventory(
       inv_price,
       inv_miles,
       inv_color,
-    ])
+    ]);
   } catch (error) {
-    return error.message
+    return error.message;
   }
 }
 
@@ -106,4 +106,4 @@ module.exports = {
   getInventoryById,
   addClassification,
   addInventory,
-}
+};

@@ -1,9 +1,9 @@
 // routes/inventoryRoute.js
-const express = require("express")
-const router = new express.Router()
-const invController = require("../controllers/invController")
-const utilities = require("../utilities/")
-const { body, validationResult } = require("express-validator")
+const express = require("express");
+const router = new express.Router();
+const invController = require("../controllers/invController");
+const utilities = require("../utilities/");
+const { body, validationResult } = require("express-validator");
 
 /* ===================================
  * Validation Rule Arrays
@@ -18,10 +18,10 @@ const classificationRules = () => {
       .withMessage("Classification name is required.")
       .matches(/^[a-zA-Z0-9]+$/)
       .withMessage(
-        "Classification name must not contain spaces or special characters."
+        "Classification name must not contain spaces or special characters.",
       ),
-  ]
-}
+  ];
+};
 
 // Inventory validation rules
 const inventoryRules = () => {
@@ -53,10 +53,7 @@ const inventoryRules = () => {
       .notEmpty()
       .withMessage("Description is required."),
 
-    body("inv_image")
-      .trim()
-      .notEmpty()
-      .withMessage("Image path is required."),
+    body("inv_image").trim().notEmpty().withMessage("Image path is required."),
 
     body("inv_thumbnail")
       .trim()
@@ -80,27 +77,27 @@ const inventoryRules = () => {
       .notEmpty()
       .isLength({ min: 3 })
       .withMessage("Color must be at least 3 characters."),
-  ]
-}
+  ];
+};
 
 // Middleware to check validation result
 const checkClassificationData = async (req, res, next) => {
-  const errors = validationResult(req)
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    let nav = await utilities.getNav()
+    let nav = await utilities.getNav();
     res.render("inventory/add-classification", {
       title: "Add Classification",
       nav,
       errors,
       notice: null,
-    })
-    return
+    });
+    return;
   }
-  next()
-}
+  next();
+};
 
 const checkInventoryData = async (req, res, next) => {
-  const errors = validationResult(req)
+  const errors = validationResult(req);
   const {
     classification_id,
     inv_make,
@@ -112,13 +109,12 @@ const checkInventoryData = async (req, res, next) => {
     inv_price,
     inv_miles,
     inv_color,
-  } = req.body
+  } = req.body;
 
   if (!errors.isEmpty()) {
-    let nav = await utilities.getNav()
-    let classificationList = await utilities.buildClassificationList(
-      classification_id
-    )
+    let nav = await utilities.getNav();
+    let classificationList =
+      await utilities.buildClassificationList(classification_id);
     res.render("inventory/add-inventory", {
       title: "Add Inventory",
       nav,
@@ -136,45 +132,55 @@ const checkInventoryData = async (req, res, next) => {
       inv_price,
       inv_miles,
       inv_color,
-    })
-    return
+    });
+    return;
   }
-  next()
-}
+  next();
+};
 
 /* ===================================
  * Routes
  * =================================== */
+// Public browsing routes
+router.get(
+  "/type/:classificationId",
+  utilities.handleErrors(invController.buildByClassificationId),
+);
+
+router.get(
+  "/detail/:inventoryId",
+  utilities.handleErrors(invController.buildByInventoryId),
+);
 
 // Management view
-router.get("/", utilities.handleErrors(invController.buildManagement))
+router.get("/", utilities.handleErrors(invController.buildManagement));
 
 // Add classification – GET
 router.get(
   "/add-classification",
-  utilities.handleErrors(invController.buildAddClassification)
-)
+  utilities.handleErrors(invController.buildAddClassification),
+);
 
 // Add classification – POST
 router.post(
   "/add-classification",
   classificationRules(),
   checkClassificationData,
-  utilities.handleErrors(invController.addClassification)
-)
+  utilities.handleErrors(invController.addClassification),
+);
 
 // Add inventory – GET
 router.get(
   "/add-inventory",
-  utilities.handleErrors(invController.buildAddInventory)
-)
+  utilities.handleErrors(invController.buildAddInventory),
+);
 
 // Add inventory – POST
 router.post(
   "/add-inventory",
   inventoryRules(),
   checkInventoryData,
-  utilities.handleErrors(invController.addInventory)
-)
+  utilities.handleErrors(invController.addInventory),
+);
 
-module.exports = router
+module.exports = router;

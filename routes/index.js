@@ -1,9 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+const utilities = require("../utilities/");
 
-// Home route
-router.get('/', function(req, res) {
-  res.render('index', { title: 'CSE Motors | Home' });
+router.get("/", async function (req, res, next) {
+  let nav = await utilities.getNav();
+  res.render("index", { title: "CSE Motors | Home", nav });
 });
 
 module.exports = router;
