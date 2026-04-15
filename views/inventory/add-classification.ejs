@@ -5,8 +5,8 @@
 <main id="main-content">
   <h1>Add New Classification</h1>
 
-  <% if (notice) { %>
-    <p class="notice"><%= notice %></p>
+  <% if (notice && notice.length) { %>
+    <p class="notice"><%= notice[0] %></p>
   <% } %>
 
   <%# Display server-side validation errors %>

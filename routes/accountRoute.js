@@ -14,6 +14,9 @@ router.get(
   utilities.handleErrors(accountController.buildRegistration),
 );
 
+// Deliver account management view – GET /account/   ← FIX #3
+router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
+
 // Process registration – POST /account/register
 router.post(
   "/register",

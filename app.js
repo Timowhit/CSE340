@@ -4,7 +4,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 require("dotenv").config();
 
-const utilities = require('./utilities/');
+const utilities = require("./utilities/");
 const indexRouter = require("./routes/index");
 const inventoryRouter = require("./routes/inventoryRoute");
 const accountRouter = require("./routes/accountRoute"); // ← NEW
