@@ -78,7 +78,10 @@ invCont.addClassification = async function (req, res, next) {
     // Rebuild nav so the new classification appears immediately
     let nav = await utilities.getNav();
     // FIX #2: set flash once, read it back once — no dead variable
-    req.flash("notice", `"${classification_name}" classification was successfully added.`);
+    req.flash(
+      "notice",
+      `"${classification_name}" classification was successfully added.`,
+    );
     res.render("inventory/management", {
       title: "Inventory Management",
       nav,
@@ -145,7 +148,10 @@ invCont.addInventory = async function (req, res, next) {
   if (result) {
     let nav = await utilities.getNav();
     // FIX #6: set flash once, read it back once — no dead variable
-    req.flash("notice", `The ${inv_year} ${inv_make} ${inv_model} was successfully added.`);
+    req.flash(
+      "notice",
+      `The ${inv_year} ${inv_make} ${inv_model} was successfully added.`,
+    );
     res.render("inventory/management", {
       title: "Inventory Management",
       nav,

@@ -25,7 +25,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.3",
     "connect-flash": "^0.1.1",
     "dotenv": "^17.3.1",
     "ejs": "^5.0.1",
@@ -35,7 +34,10 @@
     "pg": "^8.20.0"
   },
   "devDependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "eslint": "^10.2.0",
+    "jsonwebtoken": "^9.0.3",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
     "vite": "^8.0.8"

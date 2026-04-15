@@ -1,0 +1,31 @@
+<h1><%= title %></h1>
+
+<!-- Account Update -->
+<form action="/account/update" method="post">
+  <label>First Name</label>
+  <input name="firstname" value="<%= account_firstname %>" required>
+
+  <label>Last Name</label>
+  <input name="lastname" value="<%= account_lastname %>" required>
+
+  <label>Email</label>
+  <input name="email" value="<%= account_email %>" required>
+
+  <input type="hidden" name="account_id" value="<%= account_id %>">
+
+  <button type="submit">Update Account</button>
+</form>
+
+<hr>
+
+<!-- Password Update -->
+<form action="/account/password" method="post">
+  <label>New Password</label>
+  <input type="password" name="password" required>
+
+  <p>Password must be at least 12 characters and include uppercase, number, and symbol.</p>
+
+  <input type="hidden" name="account_id" value="<%= account_id %>">
+
+  <button type="submit">Change Password</button>
+</form>

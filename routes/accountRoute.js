@@ -15,7 +15,10 @@ router.get(
 );
 
 // Deliver account management view – GET /account/   ← FIX #3
-router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
+router.get(
+  "/",
+  utilities.handleErrors(accountController.buildAccountManagement),
+);
 
 // Process registration – POST /account/register
 router.post(
@@ -32,5 +35,15 @@ router.post(
   regValidate.checkLoginData,
   utilities.handleErrors(accountController.accountLogin),
 );
+
+router.get("/", accountController.buildManagement);
+
+router.get("/update/:account_id", accountController.buildUpdateView);
+
+router.post("/update", accountController.updateAccount);
+
+router.post("/password", accountController.updatePassword);
+
+router.get("/logout", accountController.logout);
 
 module.exports = router;

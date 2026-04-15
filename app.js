@@ -9,6 +9,9 @@ const indexRouter = require("./routes/index");
 const inventoryRouter = require("./routes/inventoryRoute");
 const accountRouter = require("./routes/accountRoute"); // ← NEW
 
+const cookieParser = require("cookie-parser");
+const { checkJWT } = require("./middleware/auth");
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -16,6 +19,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(checkJWT);
 
 // ---- Session & Flash Middleware ----
 app.use(

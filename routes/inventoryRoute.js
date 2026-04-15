@@ -2,8 +2,9 @@
 const express = require("express");
 const router = new express.Router();
 const invController = require("../controllers/invController");
-const utilities = require("../utilities/");
+const utilities = require("../utilities");
 const { body, validationResult } = require("express-validator");
+const { checkEmployeeOrAdmin } = require("../middleware/auth");
 
 /* ===================================
  * Validation Rule Arrays
@@ -137,6 +138,18 @@ const checkInventoryData = async (req, res, next) => {
   }
   next();
 };
+
+router.get("/", checkEmployeeOrAdmin, invController.buildManagement);
+router.get(
+  "/add-classification",
+  checkEmployeeOrAdmin,
+  invController.buildAddClassification,
+);
+router.get(
+  "/add-inventory",
+  checkEmployeeOrAdmin,
+  invController.buildAddInventory,
+);
 
 /* ===================================
  * Routes
