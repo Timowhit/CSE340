@@ -7,4 +7,9 @@
   <%- detail %>
 </main>
 
+<form action="/favorites/add" method="post">
+  <input type="hidden" name="inv_id" value="<%= inventory.inv_id %>">
+  <button type="submit">⭐ Add to Favorites</button>
+</form>
+
 <%- include('../partials/footer') %>

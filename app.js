@@ -8,6 +8,7 @@ const utilities = require("./utilities/");
 const indexRouter = require("./routes/index");
 const inventoryRouter = require("./routes/inventoryRoute");
 const accountRouter = require("./routes/accountRoute"); // ← NEW
+const favoriteRoute = require("./routes/favoriteRoute")
 
 const cookieParser = require("cookie-parser");
 const { checkJWT } = require("./middleware/auth");
@@ -42,7 +43,8 @@ app.use((req, res, next) => {
 // ---- Routes ----
 app.use("/", indexRouter);
 app.use("/inv", inventoryRouter);
-app.use("/account", accountRouter); // ← NEW
+app.use("/account", accountRouter);
+app.use("/favorites", favoriteRoute);
 
 // ---- 404 Handler ----
 app.use((req, res, next) => {

@@ -1,0 +1,19 @@
+<h1><%= title %></h1>
+
+<% if (favorites.length === 0) { %>
+  <p>No favorites yet.</p>
+<% } %>
+
+<ul>
+  <% favorites.forEach(f => { %>
+    <li>
+      <a href="/inv/detail/<%= f.inv_id %>">
+        <%= f.inv_make %> <%= f.inv_model %>
+      </a>
+
+      <a href="/favorites/delete/<%= f.favorite_id %>">
+        Remove
+      </a>
+    </li>
+  <% }) %>
+</ul>
