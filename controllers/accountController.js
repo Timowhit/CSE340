@@ -4,18 +4,6 @@ const accountModel = require("../models/account-model");
 const bcrypt = require("bcryptjs");
 const { buildManagement } = require("./invController");
 const pool = require("../database");
-const secret = process.env.ACCESS_TOKEN_SECRET;
-if (!secret) throw new Error("ACCESS_TOKEN_SECRET is not defined in .env");
-
-const token = jwt.sign(
-  {
-    account_id: accountData.account_id,
-    account_firstname: accountData.account_firstname,
-    account_type: accountData.account_type,
-  },
-  secret,
-  { expiresIn: "1h" }
-);
 
 /* ****************************************
  *  Deliver login view
