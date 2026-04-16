@@ -36,8 +36,6 @@ router.post(
   utilities.handleErrors(accountController.accountLogin),
 );
 
-router.get("/", accountController.buildManagement);
-
 router.get("/update/:account_id", accountController.buildUpdateView);
 
 router.post("/update", accountController.updateAccount);
