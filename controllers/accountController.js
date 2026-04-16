@@ -96,46 +96,35 @@ async function accountLogin(req, res) {
 
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.");
-    res.status(400).render("account/login", {
-      title: "Login",
-      nav,
-      errors: null,
-      account_email,
+    return res.status(400).render("account/login", {
+      title: "Login", nav, errors: null, account_email,
     });
-    return;
   }
 
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
-      // Successful login — extend with JWT in a future activity
+      const jwt = require("jsonwebtoken");
+      const token = jwt.sign(
+        {
+          account_id: accountData.account_id,
+          account_firstname: accountData.account_firstname,
+          account_type: accountData.account_type,
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "1h" }
+      );
+      res.cookie("jwt", token, { httpOnly: true });
       req.flash("notice", `Welcome back, ${accountData.account_firstname}!`);
-      res.redirect("/account/");
+      return res.redirect("/account/");
     } else {
       req.flash("notice", "Please check your credentials and try again.");
-      res.status(400).render("account/login", {
-        title: "Login",
-        nav,
-        errors: null,
-        account_email,
+      return res.status(400).render("account/login", {
+        title: "Login", nav, errors: null, account_email,
       });
     }
   } catch (error) {
-    throw new Error("Access Forbidden");
+    next(error);
   }
-
-  const jwt = require("jsonwebtoken");
-
-  const payload = {
-    account_id: account.account_id,
-    account_firstname: account.account_firstname,
-    account_type: account.account_type,
-  };
-
-  const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "1h",
-  });
-
-  res.cookie("jwt", token, { httpOnly: true });
 }
 
 /* ****************************************
