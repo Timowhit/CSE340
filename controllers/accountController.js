@@ -89,7 +89,7 @@ async function registerAccount(req, res) {
 /* ****************************************
  *  Process login request
  * *************************************** */
-async function accountLogin(req, res) {
+async function accountLogin(req, res, next) {
   let nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
@@ -158,24 +158,19 @@ async function buildUpdateView(req, res) {
   });
 }
 
-async function updateAccount(firstname, lastname, email, account_id) {
-  const sql = `
-    UPDATE account
-    SET account_firstname = $1,
-        account_lastname = $2,
-        account_email = $3
-    WHERE account_id = $4
-  `;
-  return await pool.query(sql, [firstname, lastname, email, account_id]);
+async function updateAccount(req, res, next) {
+  const { firstname, lastname, email, account_id } = req.body;
+  await accountModel.updateAccount(firstname, lastname, email, account_id);
+  req.flash("notice", "Account updated successfully.");
+  res.redirect("/account/");
 }
 
-async function updatePassword(hashedPassword, account_id) {
-  const sql = `
-    UPDATE account
-    SET account_password = $1
-    WHERE account_id = $2
-  `;
-  return await pool.query(sql, [hashedPassword, account_id]);
+async function updatePassword(req, res, next) {
+  const { password, account_id } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await accountModel.updatePassword(hashedPassword, account_id);
+  req.flash("notice", "Password updated successfully.");
+  res.redirect("/account/");
 }
 
 function logout(req, res) {
