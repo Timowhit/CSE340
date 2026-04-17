@@ -1,3 +1,7 @@
+<%- include("../partials/head") %>
+<%- include("../partials/header") %>
+<%- include("../partials/navigation") %>
+
 <h1><%= title %></h1>
 
 <% if (favorites.length === 0) { %>
@@ -17,3 +21,5 @@
     </li>
   <% }) %>
 </ul>
+
+<%- include("../partials/footer") %>
