@@ -90,6 +90,7 @@ async function registerAccount(req, res) {
  *  Process login request
  * *************************************** */
 async function accountLogin(req, res, next) {
+  console.log("SECRET:", process.env.ACCESS_TOKEN_SECRET);
   let nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
