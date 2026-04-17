@@ -588,6 +588,7 @@ footer#footer p {
   border-left: 4px solid var(--color-accent);
   border-radius: var(--border-radius);
   margin-top: 1rem;
+  display: none;
 }
 
 /* Footer error link */
