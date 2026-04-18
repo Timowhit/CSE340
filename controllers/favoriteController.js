@@ -19,9 +19,12 @@ async function buildFavorites(req, res) {
   try {
     const account_id = res.locals.accountData.account_id
     const data = await favoriteModel.getFavoritesByAccount(account_id)
+    const utilities = require("../utilities/")
+    let nav = await utilities.getNav()
 
     res.render("favorites/list", {
       title: "My Favorites",
+      nav,
       favorites: data.rows
     })
   } catch (err) {
